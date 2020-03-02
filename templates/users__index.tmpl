@@ -1,0 +1,11 @@
+{{template "_header" .}}
+<table width="100%">
+{{range $i, $item := .users}}
+<tr>
+  <td>{{add $i 1}}</td>
+  <td>{{$item.Email}}</td>
+  <td>{{$item.CreatedAt}}</td>
+</tr>
+{{end}}
+</table>
+{{template "_footer" .}}
