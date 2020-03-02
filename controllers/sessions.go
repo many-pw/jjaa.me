@@ -5,10 +5,11 @@ import (
 	"net/http"
 	"strings"
 
-	"jjaa.me/models"
-	"jjaa.me/util"
 	"github.com/gin-gonic/gin"
 	"github.com/tjarratt/babble"
+	e "jjaa.me/email"
+	"jjaa.me/models"
+	"jjaa.me/util"
 )
 
 var babbler = babble.NewBabbler()
@@ -51,7 +52,8 @@ values (:email, SHA1(:phrase), :flavor)`, m)
 				if err != nil {
 					flash = "was not able to login"
 				} else {
-					c.SetCookie("user", user.Encode(), 3600, "/", host, false, false)
+					go e.Send(email, "info@jjaa.me", "welcome to jjaa.me", phrase)
+					flash = "check your email for your pass phrase"
 				}
 			}
 		}
