@@ -1,8 +1,13 @@
-
 {{template "_header" .}}
-<form autocomplete="off" method="POST" action="/videos/file" enctype="multipart/form-data">
+<div class="box sidebar">
+</div>
+<div class="box content">
+  Select file for: {{$.video.Title}}
 <br/>
-<input type="file" name="file" id="f1" accept="video/*" onchange="uploadPhotos('/videos/file')"/>
+<br/>
+<form autocomplete="off" enctype="multipart/form-data">
+<br/>
+<input type="file" name="file" id="f1" accept="video/*" onchange="uploadPhotos('/videos/file/{{.video.UrlSafeName}}')"/>
 <span id="p">---</span>
 <br/>
 </form>
@@ -31,5 +36,7 @@ window.uploadPhotos = function(url){
   xhr.send(formData);
 }
 </script>
+
+</div>
 
 {{template "_footer" .}}
