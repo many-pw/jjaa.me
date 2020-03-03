@@ -1,5 +1,17 @@
 
 {{template "_header" .}}
+  
+{{template "_whoami" .}}
+		<div class="box sidebar">
+
+<a href="/">home</a>
+<br/>
+<br/>
+<a href="/videos">my videos</a>
+
+
+</div>
+		<div class="box content">
 <table width="100%">
 {{range $i, $item := .videos}}
 <tr>
@@ -9,4 +21,7 @@
 </tr>
 {{end}}
 </table>
+
+		</div>
+
 {{template "_footer" .}}

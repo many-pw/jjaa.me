@@ -18,7 +18,7 @@ const VIDEO_SELECT = "SELECT id, title, comments, UNIX_TIMESTAMP(created_at) as 
 
 func SelectVideos(db *sqlx.DB, userId int) ([]Video, string) {
 	videos := []Video{}
-	sql := fmt.Sprintf("%s where user_id = %d order by created_at desc", VIDEO_SELECT, userId)
+	sql := fmt.Sprintf("%s where user_id = %d order by created_at desc limit 1000", VIDEO_SELECT, userId)
 	err := db.Select(&videos, sql)
 	s := ""
 	if err != nil {

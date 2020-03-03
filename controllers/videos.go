@@ -22,6 +22,7 @@ func VideosIndex(c *gin.Context) {
 	videos, _ := models.SelectVideos(Db, user.Id)
 	c.HTML(http.StatusOK, "videos__index.tmpl", gin.H{
 		"videos": videos,
+		"user":   user,
 		"flash":  flash,
 	})
 }
