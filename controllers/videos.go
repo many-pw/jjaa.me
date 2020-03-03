@@ -26,7 +26,7 @@ func VideosUpload(c *gin.Context) {
 }
 func VideosCreate(c *gin.Context) {
 	BeforeAll("", c)
-	title := c.Param("title")
+	title := c.PostForm("title")
 	models.InsertVideo(Db, title, user.Id)
 	c.Redirect(http.StatusFound, "/videos/upload")
 	c.Abort()

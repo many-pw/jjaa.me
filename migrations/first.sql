@@ -17,7 +17,7 @@ CREATE TABLE videos (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     title varchar(255),
     user_id int,
-    comments int,
+    comments int not null default 0,
     status varchar(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     KEY vbyu (user_id)
