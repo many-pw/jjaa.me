@@ -22,6 +22,9 @@ You can <a href="/videos/new">post a new video</a>.
 <tr>
   <td>{{add $i 1}}</td>
   <td><a href="/videos/view/{{$item.UrlSafeName}}">{{$item.Title}}</a></td>
+  <td>{{$item.Status}}</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
   <td>{{$item.CreatedAt}}</td>
 </tr>
 {{end}}

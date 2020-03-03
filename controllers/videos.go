@@ -90,10 +90,12 @@ func convertVideoFile(fileWithExt, filename string) {
 		util.AllConfig.Path.Videos+fileWithExt,
 		"-vframes", "1", "-q:v", "2",
 		util.AllConfig.Path.Videos+filename+".jpg").Output()
+	models.UpdateVideo(Db, "jpg_ready", filename)
 	exec.Command("ffmpeg", "-i",
 		util.AllConfig.Path.Videos+fileWithExt,
 		"-vcodec", "h264", "-acodec", "aac",
 		util.AllConfig.Path.Videos+filename+".mp4").Output()
+	models.UpdateVideo(Db, "mp4_ready", filename)
 	exec.Command("ffmpeg", "-i",
 		util.AllConfig.Path.Videos+fileWithExt,
 		util.AllConfig.Path.Videos+filename+".webm").Output()

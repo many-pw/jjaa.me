@@ -15,7 +15,7 @@ type Video struct {
 	CreatedAt   int64 `json:"created_at"`
 }
 
-const VIDEO_SELECT = "SELECT id, url_safe_name as urlsafename, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
+const VIDEO_SELECT = "SELECT id, status, url_safe_name as urlsafename, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
 
 func SelectVideo(db *sqlx.DB, name string) (*Video, string) {
 	item := Video{}
