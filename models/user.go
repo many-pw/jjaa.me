@@ -17,6 +17,8 @@ type User struct {
 	CreatedAt int64  `json:"created_at"`
 }
 
+const USER_SELECT = "SELECT id, fans, videos, email, UNIX_TIMESTAMP(created_at) as createdat from users"
+
 func (u *User) Encode() string {
 	b, _ := json.Marshal(u)
 	s := string(b)
@@ -36,7 +38,7 @@ func DecodeUser(s string) *User {
 
 func SelectUsers(db *sqlx.DB) ([]User, string) {
 	users := []User{}
-	sql := fmt.Sprintf("SELECT id, email, UNIX_TIMESTAMP(created_at) as createdat from users order by created_at desc")
+	sql := fmt.Sprintf("%s order by created_at desc", USER_SELECT)
 	err := db.Select(&users, sql)
 	s := ""
 	if err != nil {
@@ -44,4 +46,18 @@ func SelectUsers(db *sqlx.DB) ([]User, string) {
 	}
 
 	return users, s
+}
+func SelectUser(db *sqlx.DB, id int) (*User, string) {
+	user := User{}
+	sql := fmt.Sprintf("%s where id=:id", USER_SELECT)
+	rows, err := db.NamedQuery(sql, map[string]interface{}{"id": id})
+	if err != nil {
+		return &user, err.Error()
+	} else {
+		if rows.Next() {
+			rows.StructScan(&user)
+		}
+	}
+
+	return &user, ""
 }

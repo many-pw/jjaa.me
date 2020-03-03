@@ -1,10 +1,13 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
-import "net/http"
-import "github.com/jmoiron/sqlx"
-import "jjaa.me/util"
-import "jjaa.me/models"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jmoiron/sqlx"
+	"jjaa.me/models"
+	"jjaa.me/util"
+)
 
 var Db *sqlx.DB
 var flash = ""
@@ -65,6 +68,8 @@ func WelcomeIndex(c *gin.Context) {
 		})
 		return
 	}
+
+	user, _ = models.SelectUser(Db, user.Id)
 
 	c.HTML(http.StatusOK, "homepage.tmpl", gin.H{
 		"user":  user,
