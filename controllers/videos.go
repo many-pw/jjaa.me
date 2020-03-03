@@ -13,14 +13,23 @@ import (
 )
 
 func VideosNew(c *gin.Context) {
-	BeforeAll("", c)
+	BeforeAll("user", c)
 	c.HTML(http.StatusOK, "videos__new.tmpl", gin.H{
 		"flash": flash,
 		"user":  user,
 	})
 }
-func VideosIndex(c *gin.Context) {
+func VideosAllIndex(c *gin.Context) {
 	BeforeAll("", c)
+	videos, _ := models.SelectVideos(Db, 0)
+	c.HTML(http.StatusOK, "videos__all_index.tmpl", gin.H{
+		"videos": videos,
+		"user":   user,
+		"flash":  flash,
+	})
+}
+func VideosIndex(c *gin.Context) {
+	BeforeAll("user", c)
 	videos, _ := models.SelectVideos(Db, user.Id)
 	c.HTML(http.StatusOK, "videos__index.tmpl", gin.H{
 		"videos": videos,

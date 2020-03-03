@@ -36,6 +36,9 @@ func SelectVideo(db *sqlx.DB, name string) (*Video, string) {
 func SelectVideos(db *sqlx.DB, userId int) ([]Video, string) {
 	videos := []Video{}
 	sql := fmt.Sprintf("%s where user_id = %d order by created_at desc limit 1000", VIDEO_SELECT, userId)
+	if userId == 0 {
+		sql = fmt.Sprintf("%s order by created_at desc limit 1000", VIDEO_SELECT)
+	}
 	err := db.Select(&videos, sql)
 	s := ""
 	if err != nil {

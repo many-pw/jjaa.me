@@ -33,6 +33,7 @@ func Serve(port string) {
 	videos.GET("/new", controllers.VideosNew)
 	videos.POST("/", controllers.VideosCreate)
 	videos.GET("/", controllers.VideosIndex)
+	videos.GET("/all", controllers.VideosAllIndex)
 	videos.GET("/upload/:name", controllers.VideosUpload)
 	videos.POST("/destroy", controllers.VideosDestroy)
 	videos.POST("/file/:name", controllers.VideosFile)
