@@ -62,6 +62,14 @@ func SelectUser(db *sqlx.DB, id int) (*User, string) {
 	return &user, ""
 }
 
+func IncrementUserCount(db *sqlx.DB, field string, id int) string {
+	_, err := db.NamedExec(fmt.Sprintf("UPDATE users set %s=%s+1 where id=:id", field, field),
+		map[string]interface{}{"id": id})
+	if err != nil {
+		return err.Error()
+	}
+	return ""
+}
 func UpdateUser(db *sqlx.DB, phrase, email string) string {
 	_, err := db.NamedExec("UPDATE users set phrase=SHA1(:phrase) where email=:email",
 		map[string]interface{}{"phrase": phrase, "email": email})

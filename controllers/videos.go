@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -28,6 +29,7 @@ func VideosCreate(c *gin.Context) {
 	BeforeAll("", c)
 	title := c.PostForm("title")
 	models.InsertVideo(Db, title, user.Id)
+	models.IncrementUserCount(Db, "videos", user.Id)
 	c.Redirect(http.StatusFound, "/videos/upload")
 	c.Abort()
 }
@@ -40,6 +42,7 @@ func VideosFile(c *gin.Context) {
 	BeforeAll("", c)
 	file, _ := c.FormFile("file")
 	tokens := strings.Split(file.Filename, ".")
+	fmt.Println("111111", tokens)
 	ext := tokens[1]
 	babbler.Count = 4
 	filename := babbler.Babble()

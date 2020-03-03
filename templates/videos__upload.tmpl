@@ -26,6 +26,7 @@ window.uploadPhotos = function(url){
   }
   xhr.upload.onloadend = function (e) {
     document.getElementById("p").innerHTML = ""+e.loaded;
+    document.location.href = '/';
   }
   xhr.send(formData);
 }

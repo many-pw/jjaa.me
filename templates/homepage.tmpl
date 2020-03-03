@@ -1,10 +1,21 @@
 {{template "_header" .}}
   
 {{template "_whoami" .}}
-		<div class="box sidebar"></div>
+		<div class="box sidebar">
+
+  {{if ne .user.Videos 0}}
+<a href="/videos">my videos</a>
+  {{end}}
+
+
+</div>
 		<div class="box content">
 
-You have, {{ .user.Fans }} fans.
+  {{if ne .user.Fans 0}}
+You have {{ .user.Fans }} <a href="">fans</a>.
+  {{else}}
+You have {{ .user.Fans }} fans.
+  {{end}}
 <br/>
 <br/>
 You should <a href="/videos/new">post a video</a>.
