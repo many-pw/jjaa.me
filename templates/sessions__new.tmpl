@@ -1,9 +1,11 @@
 {{template "_header" .}}
 <form method="post" action="/sessions">
-<input type="text" name="email"/>
+<input style="font-size: 24px;" type="text" name="email" placeholder="email"/>
 <br/>
-<input type="text" name="password"/>
 <br/>
-<input type="submit"/>
+<input style="font-size: 24px; "type="text" name="password" placeholder="passphrase"/>
+<br/>
+<br/>
+<input type="submit" value="login or create new account"/>
 </form>
 {{template "_footer" .}}

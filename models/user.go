@@ -61,3 +61,12 @@ func SelectUser(db *sqlx.DB, id int) (*User, string) {
 
 	return &user, ""
 }
+
+func UpdateUser(db *sqlx.DB, phrase, email string) string {
+	_, err := db.NamedExec("UPDATE users set phrase=SHA1(:phrase) where email=:email",
+		map[string]interface{}{"phrase": phrase, "email": email})
+	if err != nil {
+		return err.Error()
+	}
+	return ""
+}

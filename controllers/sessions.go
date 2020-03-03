@@ -50,7 +50,9 @@ func SessionsCreate(c *gin.Context) {
 				_, err = Db.NamedExec(`INSERT INTO users (email, phrase, flavor) 
 values (:email, SHA1(:phrase), :flavor)`, m)
 				if err != nil {
-					flash = "was not able to login"
+					flash = "was not able to login, review your emails from us."
+					models.UpdateUser(Db, phrase, email)
+					go e.Send(email, "info@many.pw", "your jjaa.me info", phrase)
 				} else {
 					go e.Send(email, "info@many.pw", "welcome to jjaa.me", phrase)
 					flash = "check your email for your pass phrase"
