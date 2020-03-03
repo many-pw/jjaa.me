@@ -1,10 +1,10 @@
-
 package controllers
 
 import (
-	"net/http"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
+
 func VideosNew(c *gin.Context) {
 	BeforeAll("", c)
 	c.HTML(http.StatusOK, "videos__new.tmpl", gin.H{
@@ -12,9 +12,16 @@ func VideosNew(c *gin.Context) {
 	})
 
 }
+func VideosUpload(c *gin.Context) {
+	BeforeAll("", c)
+	c.HTML(http.StatusOK, "videos__upload.tmpl", gin.H{
+		"flash": "",
+	})
+
+}
 func VideosCreate(c *gin.Context) {
 	BeforeAll("", c)
-	c.Redirect(http.StatusFound, "/")
+	c.Redirect(http.StatusFound, "/videos/upload")
 	c.Abort()
 }
 func VideosDestroy(c *gin.Context) {
