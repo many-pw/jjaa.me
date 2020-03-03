@@ -18,6 +18,7 @@ CREATE TABLE videos (
     title varchar(255),
     user_id int,
     comments int,
+    status varchar(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     KEY vbyu (user_id)
 ) ENGINE InnoDB;
