@@ -34,6 +34,7 @@ func Serve(port string) {
 	videos.POST("/", controllers.VideosCreate)
 	videos.GET("/upload", controllers.VideosUpload)
 	videos.POST("/destroy", controllers.VideosDestroy)
+	videos.POST("/file", controllers.VideosFile)
 
 	admin := router.Group("/admin")
 	users = admin.Group("/users")
