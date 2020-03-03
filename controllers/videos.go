@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"net/http"
+	"os"
+	"os/exec"
 	"regexp"
 	"strings"
 
@@ -74,9 +76,28 @@ func VideosFile(c *gin.Context) {
 	video, _ := models.SelectVideo(Db, c.Param("name"))
 	file, _ := c.FormFile("file")
 	tokens := strings.Split(file.Filename, ".")
-	ext := tokens[1]
-	file_with_ext := video.UrlSafeName + "." + ext
-	c.SaveUploadedFile(file, util.AllConfig.Path.Videos+file_with_ext)
+	ext := tokens[len(tokens)-1]
+	fileWithExt := video.UrlSafeName + "." + ext
+	c.SaveUploadedFile(file, util.AllConfig.Path.Videos+fileWithExt)
+	models.UpdateVideo(Db, "uploaded", video.UrlSafeName)
+	go convertVideoFile(fileWithExt, video.UrlSafeName)
 	c.Redirect(http.StatusFound, "/")
 	c.Abort()
+}
+func convertVideoFile(fileWithExt, filename string) {
+	//ffmpeg -ss 00:00:03 -i input -vframes 1 -q:v 2 output.jpg
+	exec.Command("ffmpeg", "-ss", "00:00:03", "-i",
+		util.AllConfig.Path.Videos+fileWithExt,
+		"-vframes", "1", "-q:v", "2",
+		util.AllConfig.Path.Videos+filename+".jpg").Output()
+	exec.Command("ffmpeg", "-i",
+		util.AllConfig.Path.Videos+fileWithExt,
+		"-vcodec", "h264", "-acodec", "aac",
+		util.AllConfig.Path.Videos+filename+".mp4").Output()
+	exec.Command("ffmpeg", "-i",
+		util.AllConfig.Path.Videos+fileWithExt,
+		util.AllConfig.Path.Videos+filename+".webm").Output()
+
+	models.UpdateVideo(Db, "live", filename)
+	os.Remove(util.AllConfig.Path.Videos + fileWithExt)
 }

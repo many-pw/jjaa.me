@@ -54,3 +54,11 @@ func InsertVideo(db *sqlx.DB, title, safeName string, id int) string {
 	}
 	return ""
 }
+func UpdateVideo(db *sqlx.DB, status, name string) string {
+	_, err := db.NamedExec("UPDATE videos set status=:status where url_safe_name=:name",
+		map[string]interface{}{"status": status, "name": name})
+	if err != nil {
+		return err.Error()
+	}
+	return ""
+}
