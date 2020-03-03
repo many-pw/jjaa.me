@@ -1,6 +1,10 @@
 {{template "_header" .}}
 <form method="post" action="/sessions">
+  {{if ne .lastEmail ""}}
+<input style="font-size: 24px;" type="text" name="email" value="{{.lastEmail}}"/>
+  {{else}}
 <input style="font-size: 24px;" type="text" name="email" placeholder="email"/>
+  {{end}}
 <br/>
 <br/>
 <input style="font-size: 24px; "type="text" name="password" placeholder="passphrase"/>

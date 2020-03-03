@@ -16,18 +16,21 @@ var babbler = babble.NewBabbler()
 
 func SessionsNew(c *gin.Context) {
 	BeforeAll("", c)
+	lastEmail, _ := c.Cookie("lastEmail")
 	c.HTML(http.StatusOK, "sessions__new.tmpl", gin.H{
-		"flash": "",
-		"name":  "name",
+		"lastEmail": lastEmail,
+		"flash":     "",
+		"name":      "name",
 	})
 
 }
 func SessionsCreate(c *gin.Context) {
 	user := models.User{}
+	host := util.AllConfig.Http.Host
 	email := c.PostForm("email")
+	c.SetCookie("lastEmail", email, 3600, "/", host, false, false)
 	password := c.PostForm("password")
 	flash := ""
-	host := util.AllConfig.Http.Host
 
 	if !strings.Contains(email, "@") || !strings.Contains(email, ".") || len(email) < 7 {
 		flash = "not valid email"
