@@ -14,9 +14,16 @@ import (
 func VideosNew(c *gin.Context) {
 	BeforeAll("", c)
 	c.HTML(http.StatusOK, "videos__new.tmpl", gin.H{
-		"flash": "",
+		"flash": flash,
 	})
-
+}
+func VideosIndex(c *gin.Context) {
+	BeforeAll("", c)
+	videos, _ := models.SelectVideos(Db, user.Id)
+	c.HTML(http.StatusOK, "videos__index.tmpl", gin.H{
+		"videos": videos,
+		"flash":  flash,
+	})
 }
 func VideosUpload(c *gin.Context) {
 	BeforeAll("", c)
@@ -27,7 +34,14 @@ func VideosUpload(c *gin.Context) {
 }
 func VideosCreate(c *gin.Context) {
 	BeforeAll("", c)
-	title := c.PostForm("title")
+	title := strings.TrimSpace(c.PostForm("title"))
+	if title == "" {
+		SetFlash("title needed", c)
+		c.Redirect(http.StatusFound, "/videos/new")
+		c.Abort()
+		return
+	}
+
 	models.InsertVideo(Db, title, user.Id)
 	models.IncrementUserCount(Db, "videos", user.Id)
 	c.Redirect(http.StatusFound, "/videos/upload")

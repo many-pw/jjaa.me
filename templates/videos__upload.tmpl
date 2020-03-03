@@ -18,7 +18,7 @@ window.uploadPhotos = function(url){
   xhr.open("POST", url);
   xhr.upload.onprogress = function (e) {
     if (e.lengthComputable) {
-      document.getElementById("p").innerHTML = ""+(e.loaded/e.total);
+      document.getElementById("p").innerHTML = ""+((e.loaded/e.total)*100);
     }
   }
   xhr.upload.onloadstart = function (e) {

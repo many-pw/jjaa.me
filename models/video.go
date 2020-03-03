@@ -16,9 +16,9 @@ type Video struct {
 
 const VIDEO_SELECT = "SELECT id, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
 
-func SelectVideos(db *sqlx.DB) ([]Video, string) {
+func SelectVideos(db *sqlx.DB, userId int) ([]Video, string) {
 	videos := []Video{}
-	sql := fmt.Sprintf("%s order by created_at desc", VIDEO_SELECT)
+	sql := fmt.Sprintf("%s where user_id = %d order by created_at desc", VIDEO_SELECT, userId)
 	err := db.Select(&videos, sql)
 	s := ""
 	if err != nil {
