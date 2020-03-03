@@ -1,0 +1,15 @@
+
+{{template "_header" .}}
+  
+{{template "_whoami" .}}
+<div class="box sidebar">
+    <a href="/">home</a>
+    <br/>
+    <br/>
+    <a href="/videos">my videos</a>
+</div>
+<div class="box content">
+  {{$.video.Title}}
+</div>
+
+{{template "_footer" .}}

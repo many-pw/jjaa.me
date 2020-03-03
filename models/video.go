@@ -17,6 +17,22 @@ type Video struct {
 
 const VIDEO_SELECT = "SELECT id, url_safe_name as urlsafename, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
 
+func SelectVideo(db *sqlx.DB, name string) (*Video, string) {
+	item := Video{}
+	sql := fmt.Sprintf("%s where url_safe_name=:name", VIDEO_SELECT)
+	rows, err := db.NamedQuery(sql, map[string]interface{}{"name": name})
+	if err != nil {
+		return &item, err.Error()
+	} else {
+		if rows.Next() {
+			rows.StructScan(&item)
+		} else {
+			return &item, "not_found"
+		}
+	}
+
+	return &item, ""
+}
 func SelectVideos(db *sqlx.DB, userId int) ([]Video, string) {
 	videos := []Video{}
 	sql := fmt.Sprintf("%s where user_id = %d order by created_at desc limit 1000", VIDEO_SELECT, userId)

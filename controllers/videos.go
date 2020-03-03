@@ -26,6 +26,15 @@ func VideosIndex(c *gin.Context) {
 		"flash":  flash,
 	})
 }
+func VideosShow(c *gin.Context) {
+	BeforeAll("", c)
+	video, _ := models.SelectVideo(Db, c.Param("name"))
+	c.HTML(http.StatusOK, "videos__show.tmpl", gin.H{
+		"video": video,
+		"user":  user,
+		"flash": flash,
+	})
+}
 func VideosUpload(c *gin.Context) {
 	BeforeAll("", c)
 	c.HTML(http.StatusOK, "videos__upload.tmpl", gin.H{
