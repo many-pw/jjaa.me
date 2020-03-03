@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"jjaa.me/controllers"
 	"jjaa.me/persist"
 	"jjaa.me/util"
-	"github.com/gin-gonic/gin"
 )
 
 func Serve(port string) {
@@ -29,6 +29,10 @@ func Serve(port string) {
 	sessions.GET("/new", controllers.SessionsNew)
 	sessions.POST("/", controllers.SessionsCreate)
 	sessions.POST("/destroy", controllers.SessionsDestroy)
+	videos := router.Group("/videos")
+	videos.GET("/new", controllers.VideosNew)
+	videos.POST("/", controllers.VideosCreate)
+	videos.POST("/destroy", controllers.VideosDestroy)
 
 	admin := router.Group("/admin")
 	users = admin.Group("/users")
