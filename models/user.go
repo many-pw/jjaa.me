@@ -1,13 +1,18 @@
 package models
 
-import "fmt"
-import "github.com/jmoiron/sqlx"
-import "encoding/base64"
-import "encoding/json"
+import (
+	"encoding/base64"
+	"encoding/json"
+	"fmt"
+
+	"github.com/jmoiron/sqlx"
+)
 
 type User struct {
 	Id        int    `json:"id"`
 	Email     string `json:"email"`
+	Fans      int    `json:"fans"`
+	Videos    int    `json:"videos"`
 	Flavor    string `json:"flavor"`
 	CreatedAt int64  `json:"created_at"`
 }
