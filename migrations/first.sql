@@ -19,7 +19,9 @@ CREATE TABLE videos (
     user_id int,
     comments int not null default 0,
     status varchar(255),
+    url_safe_name varchar(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    KEY vbyu (user_id)
+    KEY vbyu (user_id),
+    UNIQUE key urlsafe (url_safe_name)
 ) ENGINE InnoDB;
 

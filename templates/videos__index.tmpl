@@ -12,11 +12,16 @@
 
 </div>
 		<div class="box content">
+<br/>
+<br/>
+You can <a href="/videos/new">post a new video</a>.
+<br/>
+<br/>
 <table width="100%">
 {{range $i, $item := .videos}}
 <tr>
   <td>{{add $i 1}}</td>
-  <td>{{$item.Title}}</td>
+  <td><a href="/videos/{{$item.UrlSafeName}}">{{$item.Title}}</a></td>
   <td>{{$item.CreatedAt}}</td>
 </tr>
 {{end}}

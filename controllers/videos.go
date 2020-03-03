@@ -43,7 +43,11 @@ func VideosCreate(c *gin.Context) {
 		return
 	}
 
-	models.InsertVideo(Db, title, user.Id)
+	babbler.Count = 4
+	words := babbler.Babble()
+	reg, _ := regexp.Compile("[^a-zA-Z0-9]+")
+	safeName := reg.ReplaceAllString(strings.ToLower(words), "-")
+	models.InsertVideo(Db, title, safeName, user.Id)
 	models.IncrementUserCount(Db, "videos", user.Id)
 	c.Redirect(http.StatusFound, "/videos/upload")
 	c.Abort()
