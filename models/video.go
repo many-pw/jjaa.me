@@ -1,15 +1,19 @@
-
 package models
 
-import "github.com/jmoiron/sqlx"
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/jmoiron/sqlx"
+)
 
 type Video struct {
-	Id        int   `json:"id"` 
-	CreatedAt int64 `json:"created_at"`
+	Id        int    `json:"id"`
+	Title     string `json:"title"`
+	Comments  int    `json:"comments"`
+	CreatedAt int64  `json:"created_at"`
 }
 
-const VIDEO_SELECT = "SELECT id, UNIX_TIMESTAMP(created_at) as createdat from videos"
+const VIDEO_SELECT = "SELECT id, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
 
 func SelectVideos(db *sqlx.DB) ([]Video, string) {
 	videos := []Video{}
@@ -22,9 +26,9 @@ func SelectVideos(db *sqlx.DB) ([]Video, string) {
 
 	return videos, s
 }
-func InsertVideo(db *sqlx.DB) string {
-	_, err := db.NamedExec("INSERT INTO videos (col) values (:col)",
-		map[string]interface{}{"": ""})
+func InsertVideo(db *sqlx.DB, title string, id int) string {
+	_, err := db.NamedExec("INSERT INTO videos (title, user_id) values (:title, :id)",
+		map[string]interface{}{"title": title, "id": id})
 	if err != nil {
 		return err.Error()
 	}

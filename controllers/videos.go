@@ -1,11 +1,13 @@
 package controllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"jjaa.me/util"
 	"net/http"
 	"regexp"
 	"strings"
+
+	"github.com/gin-gonic/gin"
+	"jjaa.me/models"
+	"jjaa.me/util"
 )
 
 func VideosNew(c *gin.Context) {
@@ -24,6 +26,8 @@ func VideosUpload(c *gin.Context) {
 }
 func VideosCreate(c *gin.Context) {
 	BeforeAll("", c)
+	title := c.Param("title")
+	models.InsertVideo(Db, title, user.Id)
 	c.Redirect(http.StatusFound, "/videos/upload")
 	c.Abort()
 }

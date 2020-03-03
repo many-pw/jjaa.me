@@ -11,3 +11,14 @@ CREATE TABLE users (
     UNIQUE KEY unique_email (email)
 ) ENGINE InnoDB;
 
+drop table if exists videos;
+
+CREATE TABLE videos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title varchar(255),
+    user_id int,
+    comments int,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    KEY vbyu (user_id)
+) ENGINE InnoDB;
+
