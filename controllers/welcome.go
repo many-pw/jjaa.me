@@ -67,7 +67,9 @@ func SetFlash(s string, c *gin.Context) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 
 	if user == nil {
 		c.HTML(http.StatusOK, "index.tmpl", gin.H{
