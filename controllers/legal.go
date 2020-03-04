@@ -1,11 +1,10 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/andrewarrow/feedback/util"
 	"github.com/gin-gonic/gin"
+	"jjaa.me/util"
 )
 
 func LegalGdpr(c *gin.Context) {
@@ -27,7 +26,6 @@ func LegalPrivacy(c *gin.Context) {
 func LegalTerms(c *gin.Context) {
 	host := util.AllConfig.Http.Host
 
-	fmt.Println("1111", host)
 	c.HTML(http.StatusOK, "terms.tmpl", gin.H{
 		"flash": "",
 		"name":  "jjaa.me", // hint: change me
