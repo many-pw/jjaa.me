@@ -19,8 +19,8 @@ func main() {
 	}
 	fmt.Println(util.AllConfig)
 	if len(os.Args) > 2 {
-		server.Serve(os.Args[1])
 		util.AllConfig.Http.Host = os.Args[2]
+		server.Serve(os.Args[1])
 	} else {
 		server.Serve(util.AllConfig.Http.Port)
 	}

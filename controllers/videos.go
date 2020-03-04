@@ -108,6 +108,14 @@ func convertVideoFile(fileWithExt, filename string) {
 	exec.Command("ffmpeg", "-i",
 		util.AllConfig.Path.Videos+fileWithExt,
 		util.AllConfig.Path.Videos+filename+".webm").Output()
+	models.UpdateVideo(Db, "webm_ready", filename)
+	exec.Command("ffmpeg", "-i",
+		util.AllConfig.Path.Videos+fileWithExt,
+		util.AllConfig.Path.Videos+filename+".m4a").Output()
+	models.UpdateVideo(Db, "m4a_ready", filename)
+	exec.Command("ffmpeg", "-i",
+		util.AllConfig.Path.Videos+fileWithExt,
+		util.AllConfig.Path.Videos+filename+".oga").Output()
 
 	models.UpdateVideo(Db, "live", filename)
 	os.Remove(util.AllConfig.Path.Videos + fileWithExt)
