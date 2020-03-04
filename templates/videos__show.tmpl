@@ -11,12 +11,12 @@
 <div class="box content">
   {{.video.Title}}
 <br/>
-    <video id="my-video" class="video-js" controls preload="auto" width="640"
-      height="264" poster="/assets/videos/{{.video.UrlSafeName}}.jpg" data-setup="{}">
+<video class="afterglow" id="my-video" width="640" height="264"
+poster="/assets/videos/{{.video.UrlSafeName}}.jpg">
     <source src="/assets/videos/{{.video.UrlSafeName}}.webm" type="video/webm" />
   <source src="/assets/videos/{{.video.UrlSafeName}}.mp4" />
-    <p class="vjs-no-js">Need modern browser</p>
-  </video>
+ </video>
+
 </div>
 
 {{template "_footer" .}}
