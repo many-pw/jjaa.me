@@ -39,7 +39,6 @@ func (g *Game) reset() {
 
 func (g *Game) Touch(down bool) {
 	if down {
-		go hitApi()
 		g.touchCount++
 	}
 }
@@ -57,7 +56,7 @@ func (g *Game) calcFrame() {
 func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
 	loading := &TextSprite{
 		placeholder:     "feedback",
-		text:            display + strings.Repeat(".", int(time.Now().Unix()%4)),
+		text:            display,
 		font:            g.font,
 		widthPx:         sz.WidthPx,
 		heightPx:        sz.HeightPx,

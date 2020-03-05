@@ -1,4 +1,9 @@
 many-pw
+.DS_Store
+assets/videos/
+go.sum
+mobile.app/
+mobile/mobile
 conf.toml
 feedback
 jjaa.me

@@ -22,11 +22,11 @@ import (
 	"golang.org/x/mobile/gl"
 )
 
-var display = "test"
+var display = "jjaa.me"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	go hitApi()
+	//go hitApi()
 
 	app.Main(func(a app.App) {
 		var glctx gl.Context
