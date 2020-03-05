@@ -3,7 +3,6 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"log"
@@ -56,49 +55,19 @@ func (g *Game) calcFrame() {
 }
 
 func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
-	headerHeightPx, footerHeightPx := 100, 100
-
-	header := &TextSprite{
-		text:            fmt.Sprintf("%vpx * %vpx", sz.WidthPx, sz.HeightPx),
-		font:            g.font,
-		widthPx:         sz.WidthPx,
-		heightPx:        headerHeightPx * 2,
-		textColor:       image.White,
-		backgroundColor: image.NewUniform(color.RGBA{0x31, 0xA6, 0xA2, 0xFF}),
-		fontSize:        30,
-		xPt:             10,
-		yPt:             -5,
-		align:           Center,
-	}
-	header.Render(sz)
-
 	loading := &TextSprite{
 		placeholder:     "feedback",
 		text:            display + strings.Repeat(".", int(time.Now().Unix()%4)),
 		font:            g.font,
 		widthPx:         sz.WidthPx,
-		heightPx:        sz.HeightPx - headerHeightPx - footerHeightPx,
+		heightPx:        sz.HeightPx,
 		textColor:       image.White,
-		backgroundColor: image.NewUniform(color.RGBA{0x35, 0x67, 0x99, 0xFF}),
+		backgroundColor: image.NewUniform(color.Transparent),
 		fontSize:        96,
 		xPt:             0,
-		yPt:             PxToPt(sz, headerHeightPx),
+		yPt:             PxToPt(sz, 0),
 	}
 	loading.Render(sz)
-
-	footer := &TextSprite{
-		text:            fmt.Sprintf("%d", g.touchCount),
-		font:            g.font,
-		widthPx:         sz.WidthPx,
-		heightPx:        footerHeightPx,
-		textColor:       image.White,
-		backgroundColor: image.NewUniform(color.RGBA{0x31, 0xA6, 0xA2, 0xFF}),
-		fontSize:        30,
-		xPt:             0,
-		yPt:             PxToPt(sz, sz.HeightPx-footerHeightPx-20),
-		align:           Center,
-	}
-	footer.Render(sz)
 }
 
 func PxToPt(sz size.Event, sizePx int) geom.Pt {

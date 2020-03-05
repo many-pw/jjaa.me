@@ -101,6 +101,7 @@ func onStop() {
 func onPaint(glctx gl.Context, sz size.Event) {
 	glctx.ClearColor(0, rand.Float32(), 0, 1)
 	glctx.Clear(gl.COLOR_BUFFER_BIT)
+	game.Render(sz, glctx, images)
 	/*
 		glctx.ClearColor(1, 1, 1, 1)
 		glctx.Clear(gl.COLOR_BUFFER_BIT)
