@@ -13,14 +13,18 @@ import (
 )
 
 func VideosNew(c *gin.Context) {
-	BeforeAll("user", c)
+	if !BeforeAll("user", c) {
+		return
+	}
 	c.HTML(http.StatusOK, "videos__new.tmpl", gin.H{
 		"flash": flash,
 		"user":  user,
 	})
 }
 func VideosAllIndex(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	videos, _ := models.SelectVideos(Db, 0)
 	c.HTML(http.StatusOK, "videos__all_index.tmpl", gin.H{
 		"videos": videos,
@@ -29,7 +33,9 @@ func VideosAllIndex(c *gin.Context) {
 	})
 }
 func VideosIndex(c *gin.Context) {
-	BeforeAll("user", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	videos, _ := models.SelectVideos(Db, user.Id)
 	c.HTML(http.StatusOK, "videos__index.tmpl", gin.H{
 		"videos": videos,
@@ -38,7 +44,9 @@ func VideosIndex(c *gin.Context) {
 	})
 }
 func VideosShow(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	video, _ := models.SelectVideo(Db, c.Param("name"))
 	c.HTML(http.StatusOK, "videos__show.tmpl", gin.H{
 		"video": video,
@@ -47,7 +55,9 @@ func VideosShow(c *gin.Context) {
 	})
 }
 func VideosUpload(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	video, _ := models.SelectVideo(Db, c.Param("name"))
 	c.HTML(http.StatusOK, "videos__upload.tmpl", gin.H{
 		"video": video,
@@ -57,7 +67,9 @@ func VideosUpload(c *gin.Context) {
 
 }
 func VideosCreate(c *gin.Context) {
-	BeforeAll("", c)
+	if !BeforeAll("", c) {
+		return
+	}
 	title := strings.TrimSpace(c.PostForm("title"))
 	if title == "" {
 		SetFlash("title needed", c)
