@@ -18,7 +18,7 @@ import (
 	"golang.org/x/mobile/event/size"
 	"golang.org/x/mobile/event/touch"
 	"golang.org/x/mobile/exp/gl/glutil"
-	"golang.org/x/mobile/exp/sprite/clock"
+	//	"golang.org/x/mobile/exp/sprite/clock"
 	"golang.org/x/mobile/gl"
 )
 
@@ -99,9 +99,12 @@ func onStop() {
 }
 
 func onPaint(glctx gl.Context, sz size.Event) {
-	glctx.ClearColor(1, 1, 1, 1)
+	glctx.ClearColor(0, rand.Float32(), 0, 1)
 	glctx.Clear(gl.COLOR_BUFFER_BIT)
-	now := clock.Time(time.Since(startTime) * 60 / time.Second)
-	game.Update(now)
-	game.Render(sz, glctx, images)
+	/*
+		glctx.ClearColor(1, 1, 1, 1)
+		glctx.Clear(gl.COLOR_BUFFER_BIT)
+		now := clock.Time(time.Since(startTime) * 60 / time.Second)
+		game.Update(now)
+		game.Render(sz, glctx, images)*/
 }
