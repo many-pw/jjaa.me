@@ -23,6 +23,8 @@ import (
 )
 
 var display = "jjaa.me"
+var items = []string{"jjaa.me", "A", "B", "C"}
+var flavor = 1
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
@@ -54,14 +56,14 @@ func main() {
 				a.Send(paint.Event{})
 			case touch.Event:
 				if down := e.Type == touch.TypeBegin; down || e.Type == touch.TypeEnd {
-					game.Touch(down)
+					game.Touch(down, e.X, e.Y)
 				}
 			case key.Event:
 				if e.Code != key.CodeSpacebar {
 					break
 				}
 				if down := e.Direction == key.DirPress; down || e.Direction == key.DirRelease {
-					game.Touch(down)
+					game.Touch(down, 0, 0)
 				}
 			}
 		}
@@ -99,7 +101,21 @@ func onStop() {
 }
 
 func onPaint(glctx gl.Context, sz size.Event) {
-	glctx.ClearColor(0, rand.Float32(), 0, 1)
+	if flavor == 1 {
+		glctx.ClearColor(0, rand.Float32(), 0, 1)
+	} else if flavor == 2 {
+		glctx.ClearColor(0, 0, rand.Float32(), 1)
+	} else if flavor == 3 {
+		glctx.ClearColor(rand.Float32(), 0, 0, 1)
+	} else if flavor == 4 {
+		glctx.ClearColor(rand.Float32(), rand.Float32(), 0, 1)
+	} else if flavor == 5 {
+		glctx.ClearColor(rand.Float32(), 0, rand.Float32(), 1)
+	} else if flavor == 6 {
+		glctx.ClearColor(0, rand.Float32(), rand.Float32(), 1)
+	} else if flavor == 7 {
+		glctx.ClearColor(rand.Float32(), rand.Float32(), rand.Float32(), 1)
+	}
 	glctx.Clear(gl.COLOR_BUFFER_BIT)
 	game.Render(sz, glctx, images)
 	/*

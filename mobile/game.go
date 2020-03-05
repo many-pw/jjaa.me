@@ -3,11 +3,12 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"image/color"
 	"log"
-	"strings"
-	"time"
+	//	"strings"
+	//	"time"
 
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/mobile/event/size"
@@ -37,9 +38,14 @@ func (g *Game) reset() {
 	}
 }
 
-func (g *Game) Touch(down bool) {
+func (g *Game) Touch(down bool, x, y float32) {
 	if down {
 		g.touchCount++
+		flavor++
+		if flavor > 7 {
+			flavor = 1
+		}
+		display = fmt.Sprintf("%d,%d", int(x), int(y))
 	}
 }
 
