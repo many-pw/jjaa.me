@@ -23,7 +23,8 @@ import (
 )
 
 var display = "jjaa.me"
-var items = []string{"jjaa.me", "A", "B", "C"}
+var displayIndex = 0
+var displayItems = []string{"jjaa.me", "A", "B", "C", "D", "E", "F", "G"}
 var flavor = 1
 
 func main() {
@@ -51,19 +52,21 @@ func main() {
 				if glctx == nil || e.External {
 					continue
 				}
-				onPaint(glctx, sz)
-				a.Publish()
-				a.Send(paint.Event{})
+				if rand.Intn(100) > 50 {
+					onPaint(glctx, sz)
+					a.Publish()
+					a.Send(paint.Event{})
+				}
 			case touch.Event:
 				if down := e.Type == touch.TypeBegin; down || e.Type == touch.TypeEnd {
-					game.Touch(down, e.X, e.Y)
+					game.Touch(down, e.X, e.Y, sz)
 				}
 			case key.Event:
 				if e.Code != key.CodeSpacebar {
 					break
 				}
 				if down := e.Direction == key.DirPress; down || e.Direction == key.DirRelease {
-					game.Touch(down, 0, 0)
+					game.Touch(down, 0, 0, sz)
 				}
 			}
 		}

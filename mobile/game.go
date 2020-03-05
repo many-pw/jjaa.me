@@ -38,14 +38,22 @@ func (g *Game) reset() {
 	}
 }
 
-func (g *Game) Touch(down bool, x, y float32) {
+func (g *Game) Touch(down bool, x, y float32, sz size.Event) {
 	if down {
 		g.touchCount++
-		flavor++
-		if flavor > 7 {
-			flavor = 1
+		if int(y) > sz.HeightPx/2 {
+			flavor++
+			if flavor > 7 {
+				flavor = 1
+			}
+			display = fmt.Sprintf("GT %d,%d", int(x), int(y))
+		} else {
+			displayIndex++
+			if displayIndex >= len(displayItems) {
+				displayIndex = 0
+			}
+			display = displayItems[displayIndex]
 		}
-		display = fmt.Sprintf("%d,%d", int(x), int(y))
 	}
 }
 
