@@ -10,9 +10,9 @@ type Video struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
 	Comments    int    `json:"comments"`
-	Status      string
-	UrlSafeName string
-	CreatedAt   int64 `json:"created_at"`
+	Status      string `json:"status"`
+	UrlSafeName string `json:"url_safe_name"`
+	CreatedAt   int64  `json:"created_at"`
 }
 
 const VIDEO_SELECT = "SELECT id, status, url_safe_name as urlsafename, title, comments, UNIX_TIMESTAMP(created_at) as createdat from videos"
