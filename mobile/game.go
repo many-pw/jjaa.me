@@ -3,12 +3,9 @@
 package main
 
 import (
-	"fmt"
 	"image"
 	"image/color"
 	"log"
-	//	"strings"
-	//	"time"
 
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/mobile/event/size"
@@ -38,22 +35,10 @@ func (g *Game) reset() {
 	}
 }
 
-func (g *Game) Touch(down bool, x, y float32, sz size.Event) {
+func (g *Game) Touch(down bool) {
 	if down {
+		go hitApi()
 		g.touchCount++
-		if int(y) > sz.HeightPx/2 {
-			flavor++
-			if flavor > 7 {
-				flavor = 1
-			}
-			display = fmt.Sprintf("GT %d,%d", int(x), int(y))
-		} else {
-			displayIndex++
-			if displayIndex >= len(displayItems) {
-				displayIndex = 0
-			}
-			display = displayItems[displayIndex]
-		}
 	}
 }
 
@@ -68,19 +53,22 @@ func (g *Game) calcFrame() {
 }
 
 func (g *Game) Render(sz size.Event, glctx gl.Context, images *glutil.Images) {
+	headerHeightPx, footerHeightPx := 0, 0
+
 	loading := &TextSprite{
 		placeholder:     "feedback",
 		text:            display,
 		font:            g.font,
 		widthPx:         sz.WidthPx,
-		heightPx:        sz.HeightPx,
+		heightPx:        sz.HeightPx - headerHeightPx - footerHeightPx,
 		textColor:       image.White,
-		backgroundColor: image.NewUniform(color.Transparent),
-		fontSize:        96,
+		backgroundColor: image.NewUniform(color.RGBA{0x35, 0x67, 0x99, 0xFF}),
+		fontSize:        56,
 		xPt:             0,
-		yPt:             PxToPt(sz, 0),
+		yPt:             PxToPt(sz, headerHeightPx),
 	}
 	loading.Render(sz)
+
 }
 
 func PxToPt(sz size.Event, sizePx int) geom.Pt {
