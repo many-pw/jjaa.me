@@ -5,11 +5,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/andrewarrow/feedback/api"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"jjaa.me/api"
 
 	"golang.org/x/mobile/app"
 	"golang.org/x/mobile/event/key"
@@ -18,18 +19,15 @@ import (
 	"golang.org/x/mobile/event/size"
 	"golang.org/x/mobile/event/touch"
 	"golang.org/x/mobile/exp/gl/glutil"
-	//	"golang.org/x/mobile/exp/sprite/clock"
+	"golang.org/x/mobile/exp/sprite/clock"
 	"golang.org/x/mobile/gl"
 )
 
-var display = "jjaa.me"
-var displayIndex = 0
-var displayItems = []string{"jjaa.me", "A", "B", "C", "D", "E", "F", "G"}
-var flavor = 1
+var display = "test"
 
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	//go hitApi()
+	go hitApi()
 
 	app.Main(func(a app.App) {
 		var glctx gl.Context
@@ -52,21 +50,19 @@ func main() {
 				if glctx == nil || e.External {
 					continue
 				}
-				if rand.Intn(100) > 50 {
-					onPaint(glctx, sz)
-					a.Publish()
-					a.Send(paint.Event{})
-				}
+				onPaint(glctx, sz)
+				a.Publish()
+				a.Send(paint.Event{})
 			case touch.Event:
 				if down := e.Type == touch.TypeBegin; down || e.Type == touch.TypeEnd {
-					game.Touch(down, e.X, e.Y, sz)
+					game.Touch(down)
 				}
 			case key.Event:
 				if e.Code != key.CodeSpacebar {
 					break
 				}
 				if down := e.Direction == key.DirPress; down || e.Direction == key.DirRelease {
-					game.Touch(down, 0, 0, sz)
+					game.Touch(down)
 				}
 			}
 		}
@@ -75,7 +71,7 @@ func main() {
 
 func hitApi() {
 	host := "jjaa.me"
-	data, err := http.Get(fmt.Sprintf("https://%s/api/version", host))
+	data, err := http.Get(fmt.Sprintf("https://%s/api/latest", host))
 	if err != nil {
 		return
 	}
@@ -84,7 +80,12 @@ func hitApi() {
 
 	var ar api.ApiResponse
 	json.Unmarshal(all, &ar)
-	display = fmt.Sprintf("%v", ar.SentAt)
+
+	for _, item := range ar.Items {
+		video := item.(map[string]interface{})
+		display = fmt.Sprintf("%v", video["url_safe_name"])
+	}
+
 }
 
 var (
@@ -104,27 +105,9 @@ func onStop() {
 }
 
 func onPaint(glctx gl.Context, sz size.Event) {
-	if flavor == 1 {
-		glctx.ClearColor(0, rand.Float32(), 0, 1)
-	} else if flavor == 2 {
-		glctx.ClearColor(0, 0, rand.Float32(), 1)
-	} else if flavor == 3 {
-		glctx.ClearColor(rand.Float32(), 0, 0, 1)
-	} else if flavor == 4 {
-		glctx.ClearColor(rand.Float32(), rand.Float32(), 0, 1)
-	} else if flavor == 5 {
-		glctx.ClearColor(rand.Float32(), 0, rand.Float32(), 1)
-	} else if flavor == 6 {
-		glctx.ClearColor(0, rand.Float32(), rand.Float32(), 1)
-	} else if flavor == 7 {
-		glctx.ClearColor(rand.Float32(), rand.Float32(), rand.Float32(), 1)
-	}
+	glctx.ClearColor(1, 1, 1, 1)
 	glctx.Clear(gl.COLOR_BUFFER_BIT)
+	now := clock.Time(time.Since(startTime) * 60 / time.Second)
+	game.Update(now)
 	game.Render(sz, glctx, images)
-	/*
-		glctx.ClearColor(1, 1, 1, 1)
-		glctx.Clear(gl.COLOR_BUFFER_BIT)
-		now := clock.Time(time.Since(startTime) * 60 / time.Second)
-		game.Update(now)
-		game.Render(sz, glctx, images)*/
 }
