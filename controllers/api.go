@@ -1,10 +1,12 @@
 package controllers
 
 import (
-	"github.com/andrewarrow/feedback/api"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"jjaa.me/api"
+	"jjaa.me/models"
 )
 
 func ApiVersion(c *gin.Context) {
@@ -14,4 +16,14 @@ func ApiVersion(c *gin.Context) {
 	ap.SentAt = time.Now().Unix()
 	c.JSON(http.StatusOK, ap)
 
+}
+func ApiLatest(c *gin.Context) {
+	ap := api.ApiResponse{}
+	items, _ := models.SelectVideos(Db, 0)
+	ap.Items = []interface{}{}
+	for _, item := range items {
+		ap.Items = append(ap.Items, item)
+	}
+	ap.SentAt = time.Now().Unix()
+	c.JSON(http.StatusOK, ap)
 }
