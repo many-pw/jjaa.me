@@ -52,11 +52,11 @@ func main() {
 				if glctx == nil || e.External {
 					continue
 				}
-				if rand.Intn(100) > 50 {
-					onPaint(glctx, sz)
-					a.Publish()
-					a.Send(paint.Event{})
-				}
+				//if rand.Intn(100) > 50 {
+				onPaint(glctx, sz)
+				a.Publish()
+				a.Send(paint.Event{})
+				//}
 			case touch.Event:
 				if down := e.Type == touch.TypeBegin; down || e.Type == touch.TypeEnd {
 					game.Touch(down, e.X, e.Y, sz)
