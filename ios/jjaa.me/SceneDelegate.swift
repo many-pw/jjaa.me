@@ -51,30 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        let urlString = "https://jjaa.me/api/latest"
-
-         let url = URL(string: urlString)
-         URLSession.shared.dataTask(with:url!) { (data, response, error) in
-           if error != nil {
-             print(error)
-           } else {
-             do {
-
-               let parsedData = try JSONSerialization.jsonObject(with: data!) as! [String:Any]
-               let items = parsedData["items"] as! [[String: Any]]
-
-                for json in items {
-                    let image = json["url_safe_name"]
-                    print(image)
-                }
-               
-
-             } catch let error as NSError {
-               print(error)
-             }
-           }
-
-         }.resume()
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
