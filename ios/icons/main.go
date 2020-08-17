@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
 	"strings"
 )
 
@@ -18,6 +19,8 @@ func main() {
 120x120 Icon-Small-40@3x.png
 29x29 Icon-Small.png
 58x58 Icon-Small@2x.png
+20x20 20x20.png
+60x60 60x60.png
 87x87 Icon-Small@3x.png`
 
 	iconList := strings.Split(icons, "\n")
@@ -26,5 +29,7 @@ func main() {
 		size := sizeName[0]
 		name := sizeName[1]
 		fmt.Println(name, size)
+		// convert example.png -resize 200x100 example.png
+		exec.Command("convert", "/Users/aa/jjaa_me_logo.png", "-resize", size, name).Run()
 	}
 }
